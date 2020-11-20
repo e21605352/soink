@@ -1,0 +1,516 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/textures/premade_texture.tres" type="Material" id=2]
+[ext_resource path="res://assets/textures/wall_texture.tres" type="Material" id=3]
+[ext_resource path="res://assets/level_environment.tres" type="Environment" id=4]
+[ext_resource path="res://src/Level/Level_01.gd" type="Script" id=5]
+[ext_resource path="res://src/Enemy/Enemy.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Components/Ring.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/textures/um85oje9g1y21.jpg" type="Texture" id=8]
+
+[sub_resource type="NavigationMesh" id=1]
+vertices = PoolVector3Array( -63.7, 8.9, 12.1, -58, 8.9, 13.3, -54.1, 8.9, 13.3, -48.4, 8.9, 12.1, -42.4, 8.9, 8.2, -37.9, 8.9, 1.6, -36.7, 8.9, -4.1, -36.7, 8.9, -8, -42.4, 8.9, 8.2, -54.7, 8.9, -25.4, -63.4, 8.9, -24.2, -69.4, 8.9, -20.3, -36.7, 8.9, -8, -37.9, 8.9, -13.7, -42.1, 8.9, -20, -48.7, 8.9, -24.2, -54.7, 8.9, -25.4, -74.2, 8.9, 1.3, -63.7, 8.9, 12.1, -42.4, 8.9, 8.2, -36.7, 8.9, -8, -54.7, 8.9, -25.4, -69.4, 8.9, -20.3, -69.4, 8.9, -20.3, -74.2, 8.9, -13.4, -75.4, 8.9, -7.4, -74.2, 8.9, 1.3, -74.2, 8.9, 1.3, -70, 8.9, 7.9, -63.7, 8.9, 12.1 )
+polygons = [ PoolIntArray( 2, 1, 3 ), PoolIntArray( 3, 1, 0 ), PoolIntArray( 3, 0, 4 ), PoolIntArray( 6, 5, 7 ), PoolIntArray( 7, 5, 8 ), PoolIntArray( 11, 10, 9 ), PoolIntArray( 13, 12, 14 ), PoolIntArray( 14, 12, 15 ), PoolIntArray( 15, 12, 16 ), PoolIntArray( 18, 17, 19 ), PoolIntArray( 19, 17, 20 ), PoolIntArray( 20, 17, 22 ), PoolIntArray( 20, 22, 21 ), PoolIntArray( 24, 23, 25 ), PoolIntArray( 25, 23, 26 ), PoolIntArray( 27, 29, 28 ) ]
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_texture = ExtResource( 8 )
+metallic_specular = 0.0
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.285156, 0.110119, 0.0334167, 1 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 140.783, 2.68158, 117.888 )
+
+[node name="Level_01" type="Spatial"]
+script = ExtResource( 5 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03927, 53.3618 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 4 )
+
+[node name="Map" type="CSGCombiner" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0203729, -0.0731049, 0.0220747 )
+use_collision = true
+
+[node name="Ground_1" type="Spatial" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 42 )
+
+[node name="Grass" type="CSGBox" parent="Map/Ground_1"]
+use_collision = true
+width = 55.0
+depth = 38.0
+material = ExtResource( 2 )
+
+[node name="Wall" type="CSGBox" parent="Map/Ground_1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11, 3.8147e-06 )
+use_collision = true
+width = 55.0
+height = 20.0
+depth = 38.0
+material = ExtResource( 3 )
+
+[node name="Ground_2" type="CSGCombiner" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
+
+[node name="Grass" type="CSGBox" parent="Map/Ground_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+use_collision = true
+width = 28.0
+depth = 32.0
+material = ExtResource( 2 )
+
+[node name="Wall" type="CSGBox" parent="Map/Ground_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11, 1 )
+use_collision = true
+width = 28.0
+height = 20.0
+depth = 32.0
+material = ExtResource( 3 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="Map/Ground_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0 )
+operation = 2
+radius = 4.0
+height = 26.0
+smooth_faces = false
+material = ExtResource( 3 )
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="Map/Ground_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+operation = 2
+radius = 4.0
+height = 2.0
+smooth_faces = false
+material = ExtResource( 2 )
+
+[node name="CSGCylinder3" type="CSGCylinder" parent="Map/Ground_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -12, 8 )
+operation = 2
+radius = 4.0
+height = 26.0
+smooth_faces = false
+material = ExtResource( 3 )
+
+[node name="CSGCylinder4" type="CSGCylinder" parent="Map/Ground_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, 8 )
+operation = 2
+radius = 4.0
+height = 2.0
+smooth_faces = false
+material = ExtResource( 2 )
+
+[node name="Platform_1" type="CSGCombiner" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3, -12 )
+
+[node name="Grass" type="CSGBox" parent="Map/Platform_1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+use_collision = true
+width = 5.0
+height = 1.0
+depth = 5.0
+material = ExtResource( 2 )
+
+[node name="Wall" type="CSGBox" parent="Map/Platform_1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 1 )
+use_collision = true
+width = 5.0
+height = 1.0
+depth = 5.0
+material = ExtResource( 3 )
+
+[node name="Platform_2" type="CSGCombiner" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 5, -6 )
+
+[node name="Grass" type="CSGBox" parent="Map/Platform_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+use_collision = true
+width = 5.0
+height = 1.0
+depth = 5.0
+material = ExtResource( 2 )
+
+[node name="Wall" type="CSGBox" parent="Map/Platform_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 1 )
+use_collision = true
+width = 5.0
+height = 1.0
+depth = 5.0
+material = ExtResource( 3 )
+
+[node name="Platform_3" type="CSGCombiner" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 7, -13 )
+
+[node name="Grass" type="CSGBox" parent="Map/Platform_3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+use_collision = true
+width = 5.0
+height = 1.0
+depth = 5.0
+material = ExtResource( 2 )
+
+[node name="Wall" type="CSGBox" parent="Map/Platform_3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 1 )
+use_collision = true
+width = 5.0
+height = 1.0
+depth = 5.0
+material = ExtResource( 3 )
+
+[node name="Stare" type="CSGCombiner" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 30.4 )
+
+[node name="Pillar" type="CSGCombiner" parent="Map/Stare"]
+
+[node name="Wall" type="CSGCylinder" parent="Map/Stare/Pillar"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0.00699997 )
+use_collision = true
+radius = 5.0
+height = 11.0
+smooth_faces = false
+material = ExtResource( 3 )
+
+[node name="Grass" type="CSGCylinder" parent="Map/Stare/Pillar"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5, 0.00699997 )
+use_collision = true
+radius = 5.0
+material = ExtResource( 2 )
+
+[node name="Starcases" type="Spatial" parent="Map/Stare"]
+
+[node name="1" type="Spatial" parent="Map/Stare/Starcases"]
+
+[node name="Wall" type="CSGBox" parent="Map/Stare/Starcases/1"]
+transform = Transform( -0.381764, 0, 0.92426, 0, 1, 0, -0.92426, 0, -0.381764, -5.20413, 1, 2.15244 )
+use_collision = true
+width = 3.84095
+material = ExtResource( 3 )
+
+[node name="Grass" type="CSGBox" parent="Map/Stare/Starcases/1"]
+transform = Transform( -0.381764, 0, 0.92426, 0, 1, 0, -0.92426, 0, -0.381764, -5.204, 2.25, 2.152 )
+use_collision = true
+width = 3.84095
+height = 0.5
+material = ExtResource( 2 )
+
+[node name="2" type="Spatial" parent="Map/Stare/Starcases"]
+
+[node name="Wall" type="CSGBox" parent="Map/Stare/Starcases/2"]
+transform = Transform( 0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, -2.155, 2, 5.195 )
+use_collision = true
+width = 3.84095
+height = 4.0
+material = ExtResource( 3 )
+
+[node name="Grass" type="CSGBox" parent="Map/Stare/Starcases/2"]
+transform = Transform( 0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, -2.155, 4.25, 5.195 )
+use_collision = true
+width = 3.84095
+height = 0.5
+material = ExtResource( 2 )
+
+[node name="3" type="Spatial" parent="Map/Stare/Starcases"]
+
+[node name="Wall" type="CSGBox" parent="Map/Stare/Starcases/3"]
+transform = Transform( 0.92388, 0, 0.382683, 0, 1, 0, -0.382683, 0, 0.92388, 2.162, 3, 5.203 )
+use_collision = true
+width = 3.84095
+height = 6.0
+material = ExtResource( 3 )
+
+[node name="Grass" type="CSGBox" parent="Map/Stare/Starcases/3"]
+transform = Transform( 0.92388, 0, 0.382683, 0, 1, 0, -0.382683, 0, 0.92388, 2.162, 6.25, 5.203 )
+use_collision = true
+width = 3.84095
+height = 0.5
+material = ExtResource( 2 )
+
+[node name="4" type="Spatial" parent="Map/Stare/Starcases"]
+
+[node name="Wall" type="CSGBox" parent="Map/Stare/Starcases/4"]
+transform = Transform( 0.375836, 0, 0.926686, 0, 1, 0, -0.926686, 0, 0.375836, 5.181, 4, 2.156 )
+use_collision = true
+width = 3.84095
+height = 8.0
+material = ExtResource( 3 )
+
+[node name="Grass" type="CSGBox" parent="Map/Stare/Starcases/4"]
+transform = Transform( 0.375836, 0, 0.926686, 0, 1, 0, -0.926686, 0, 0.375836, 5.181, 8.25, 2.156 )
+use_collision = true
+width = 3.84095
+height = 0.5
+material = ExtResource( 2 )
+
+[node name="5" type="Spatial" parent="Map/Stare/Starcases"]
+
+[node name="Wall" type="CSGBox" parent="Map/Stare/Starcases/5"]
+transform = Transform( -0.384328, 0, 0.923197, 0, 1, 0, -0.923197, 0, -0.384328, 5.202, 5, -2.161 )
+use_collision = true
+width = 3.84095
+height = 10.0
+material = ExtResource( 3 )
+
+[node name="Grass" type="CSGBox" parent="Map/Stare/Starcases/5"]
+transform = Transform( -0.384328, 0, 0.923197, 0, 1, 0, -0.923197, 0, -0.384328, 5.202, 10.25, -2.161 )
+use_collision = true
+width = 3.84095
+height = 0.5
+material = ExtResource( 2 )
+
+[node name="Bridge" type="CSGCombiner" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.746, 19.22 )
+
+[node name="CSGBox6" type="CSGBox" parent="Map/Bridge"]
+depth = 24.0
+material = ExtResource( 3 )
+
+[node name="CSGBox11" type="CSGBox" parent="Map/Bridge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.254, 0 )
+height = 0.5
+depth = 24.0
+material = ExtResource( 2 )
+
+[node name="CSGBox10" type="CSGBox" parent="Map/Bridge"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -6, 11 )
+depth = 10.0
+material = ExtResource( 3 )
+
+[node name="Tunnel" type="CSGCombiner" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 5.105 )
+
+[node name="CSGCylinder3" type="CSGCylinder" parent="Map/Tunnel"]
+radius = 3.0
+height = 14.0
+smooth_faces = false
+material = ExtResource( 3 )
+
+[node name="CSGCylinder5" type="CSGCylinder" parent="Map/Tunnel"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0 )
+radius = 3.0
+smooth_faces = false
+material = ExtResource( 2 )
+
+[node name="CSGBox" type="CSGBox" parent="Map/Tunnel"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.75, 1.895 )
+operation = 2
+height = 3.0
+depth = 3.0
+material = ExtResource( 3 )
+
+[node name="CSGCylinder4" type="CSGCylinder" parent="Map/Tunnel"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, -0.0760002 )
+operation = 2
+radius = 2.0
+height = 20.0
+smooth_faces = false
+material = ExtResource( 3 )
+
+[node name="CSGBox2" type="CSGBox" parent="Map/Tunnel"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.25, -2.105 )
+operation = 2
+height = 3.0
+material = ExtResource( 3 )
+
+[node name="CSGCylinder3" type="CSGCylinder" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 6, -6 )
+radius = 20.0
+height = 3.0
+sides = 16
+smooth_faces = false
+material = ExtResource( 3 )
+
+[node name="Navigation" type="Navigation" parent="Map"]
+
+[node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Map/Navigation"]
+navmesh = SubResource( 1 )
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="Map/Navigation/NavigationMeshInstance"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 8, -6 )
+use_collision = true
+radius = 20.0
+sides = 16
+smooth_faces = false
+material = ExtResource( 2 )
+
+[node name="Enemy" parent="Map/Navigation" instance=ExtResource( 6 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -56, 8.49312, -6 )
+
+[node name="CSGBox" type="CSGBox" parent="Map"]
+transform = Transform( -4.37114e-08, 0, -1, 8.74228e-08, -1, -3.82137e-15, -1, -8.74228e-08, 4.37114e-08, -22.9433, 8.84538, 44.3881 )
+width = 10.2899
+height = 7.44162
+depth = 0.1
+material = SubResource( 2 )
+
+[node name="CSGBox2" type="CSGBox" parent="Map"]
+transform = Transform( -4.37114e-08, 0, -1, 8.74228e-08, -1, -3.82137e-15, -1, -8.74228e-08, 4.37114e-08, -23.1905, 8.84538, 44.3881 )
+width = 10.5354
+height = 7.7
+depth = 0.5
+material = SubResource( 3 )
+
+[node name="CSGBox3" type="CSGBox" parent="Map"]
+transform = Transform( -4.37114e-08, 0, -1, 8.74228e-08, -1, -3.82137e-15, -1, -8.74228e-08, 4.37114e-08, -23.1905, 2.99282, 44.3881 )
+width = 1.01027
+height = 4.17427
+depth = 0.5
+material = SubResource( 3 )
+
+[node name="Rings" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.97761, 48.4494 )
+
+[node name="Ring" parent="Rings" instance=ExtResource( 7 )]
+
+[node name="Ring31" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.84557, 0, 3.60599 )
+
+[node name="Ring32" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5455, 0, -2.26894 )
+
+[node name="Ring33" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.86201, 0, -4.65942 )
+
+[node name="Ring34" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.6782, 0, -8.63007 )
+
+[node name="Ring35" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.16031, 0, -10.6154 )
+
+[node name="Ring36" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.2249, 0, -3.20082 )
+
+[node name="Ring37" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2085, 0, -10.2913 )
+
+[node name="Ring38" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.36584, 0, -17.3037 )
+
+[node name="Ring39" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.7933, 0, -19.7347 )
+
+[node name="Ring40" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.3864, 0, -13.6572 )
+
+[node name="Ring41" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.9812, 0, -4.13577 )
+
+[node name="Ring42" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.1873, 0, 2.91414 )
+
+[node name="Ring43" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23.2631, 0, 7.69512 )
+
+[node name="Ring44" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.56984, 0, 8.51406 )
+
+[node name="Ring45" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.8781, 0, 8.27157 )
+
+[node name="Ring46" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.6315, 0, 2.72078 )
+
+[node name="Ring47" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.8215, 0, -18.3432 )
+
+[node name="Ring48" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.8215, 0, -18.3432 )
+
+[node name="Ring2" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.1191, 9.05762, -15.83 )
+
+[node name="Ring6" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.1946, 10.9388, -20.3589 )
+
+[node name="Ring7" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0424, 12.4766, -17.882 )
+
+[node name="Ring8" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113583, 10.5271, -18.4706 )
+
+[node name="Ring9" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113583, 10.5271, -22.2402 )
+
+[node name="Ring10" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113583, 10.5271, -25.9743 )
+
+[node name="Ring11" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113583, 10.5271, -29.815 )
+
+[node name="Ring12" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113583, 10.5271, -33.5231 )
+
+[node name="Ring13" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113583, 10.5271, -37.2531 )
+
+[node name="Ring14" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113583, 10.5271, -40.1274 )
+
+[node name="Ring15" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113583, 0.282304, -48.03 )
+
+[node name="Ring16" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.44552, 0.282304, -45.1449 )
+
+[node name="Ring17" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.30938, 0.282304, -50.8386 )
+
+[node name="Ring18" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1435, 0.282304, -56.711 )
+
+[node name="Ring19" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.24126, 0.282304, -58.9834 )
+
+[node name="Ring20" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.27961, 0.282304, -65.1622 )
+
+[node name="Ring21" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0397043, 0.282304, -64.6261 )
+
+[node name="Ring22" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.87414, 0.282304, -68.5855 )
+
+[node name="Ring23" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.73376, 0.282304, -64.5769 )
+
+[node name="Ring24" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5339, 0.282304, -69.1983 )
+
+[node name="Ring25" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.74659, 0.282304, -59.2406 )
+
+[node name="Ring26" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.99333, 0.282304, -54.7469 )
+
+[node name="Ring27" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.38381, 0.282304, -42.8755 )
+
+[node name="Ring28" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.8776, 2.49994, -59.4469 )
+
+[node name="Ring29" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1028, 4.71133, -53.4027 )
+
+[node name="Ring30" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -31.0702, 6.85078, -60.5584 )
+
+[node name="Ring3" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1332, 6.89773, -12.8441 )
+
+[node name="Ring4" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.91502, 4.73783, -12.702 )
+
+[node name="Ring5" parent="Rings" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9478, 2.40206, -15.5265 )
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.0267, -7.2825, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -33.3048, 0 )
+shape = SubResource( 4 )
+[connection signal="body_entered" from="Area" to="." method="_on_body_entered"]
+
+[editable path="Player"]
